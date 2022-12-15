@@ -2,12 +2,22 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import axiosInstance from "./service/configAxios";
+import { useEffect } from "react";
 
 
  function App() {
   const [count, setCount] = useState(0);
-  const data = axiosInstance.get("agents");
-  console.log("aqui estan los agentes", data.data);
+  const [agentes, setAgentes] = useState([]);
+
+  useEffect(()=> {
+    async function buscarDatos(){
+      const data = await axiosInstance.get("agents");
+      setAgentes(data.data);
+    }
+    buscarDatos();
+  },[]);
+
+  console.log(agentes.data);
   return (
     <div className="App">
       <div>
